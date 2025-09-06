@@ -5,6 +5,8 @@ import { PatientDataForm } from './components/PatientDataForm';
 import { QuestionInterface } from './components/QuestionInterface';
 import { DiagnosticReport } from './components/DiagnosticReport';
 import { LoadingSpinner } from './components/LoadingSpinner';
+import { StatusIndicator } from './components/StatusIndicator';
+import { ThemeToggle } from './components/ThemeToggle';
 import { Heart, Brain, Shield, Activity } from 'lucide-react';
 
 type AppStep = 'welcome' | 'data_entry' | 'questions' | 'analysis' | 'report';
@@ -14,11 +16,17 @@ function App() {
   const [session, setSession] = useState<DiagnosticSession | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Verificar se o Gemini está configurado
+  const isGeminiConfigured = !!import.meta.env.VITE_GEMINI_API_KEY && 
+    import.meta.env.VITE_GEMINI_API_KEY !== 'your_gemini_api_key_here';
 
   const handlePatientDataSubmit = async (patientData: PatientData) => {
+    console.log('📋 Dados do paciente recebidos:', patientData);
     setIsLoading(true);
     try {
       const analysis = await AIService.analyzeSymptoms(patientData);
+      console.log('✅ Análise concluída:', analysis);
       
       const newSession: DiagnosticSession = {
         id: `session_${Date.now()}`,
@@ -34,8 +42,9 @@ function App() {
       setSession(newSession);
       setAnswers([]);
       setCurrentStep('questions');
+      console.log('🔄 Navegando para perguntas...');
     } catch (error) {
-      console.error('Erro ao analisar sintomas:', error);
+      console.error('❌ Erro ao analisar sintomas:', error);
       // Ainda assim, criar uma sessão com análise básica
       const basicAnalysis = {
         initialAssessment: 'Análise em andamento...',
@@ -120,95 +129,124 @@ function App() {
   };
 
   const renderWelcomeScreen = () => (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full">
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-white rounded-2xl shadow-lg">
-              <Heart className="w-16 h-16 text-blue-600" />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Theme Toggle */}
+      <ThemeToggle />
+      
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-6xl w-full relative z-10">
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <div className="p-6 bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30">
+                <Heart className="w-20 h-20 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full animate-pulse"></div>
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          
+          <h1 className="hero-title">
             HealthAI
           </h1>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Sistema de Diagnóstico Assistido por IA para Agentes de Saúde em Locais Remotos
+          
+          <p className="hero-subtitle">
+            Diagnóstico Assistido por IA
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          <p className="hero-description">
+            Sistema inteligente para agentes de saúde em locais remotos do Brasil. 
+            Análise de sintomas, perguntas direcionadas e relatórios médicos precisos.
+          </p>
+          
+          <div className="button-container">
             <button
-              onClick={() => setCurrentStep('data_entry')}
-              className="btn btn-primary text-lg px-8 py-4"
+              onClick={() => {
+                console.log('🔄 Iniciando nova avaliação...');
+                setCurrentStep('data_entry');
+              }}
+              className="hero-button"
             >
-              <Heart className="w-5 h-5" />
-              Iniciar Nova Avaliação
+              <Heart className="w-6 h-6" />
+              <span>Iniciar Nova Avaliação</span>
             </button>
+            
+            <StatusIndicator 
+              isGeminiConfigured={isGeminiConfigured} 
+              isOnline={true} 
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="card text-center">
-            <div className="p-4 bg-blue-100 rounded-lg w-fit mx-auto mb-4">
-              <Brain className="w-8 h-8 text-blue-600" />
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon blue">
+              <Brain className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">IA Inteligente</h3>
-            <p className="text-gray-600">
-              Análise avançada de sintomas com base em conhecimento médico especializado
+            <h3 className="feature-title">IA Inteligente</h3>
+            <p className="feature-description">
+              Análise avançada de sintomas com base em conhecimento médico especializado e Google Gemini
             </p>
           </div>
 
-          <div className="card text-center">
-            <div className="p-4 bg-green-100 rounded-lg w-fit mx-auto mb-4">
-              <Activity className="w-8 h-8 text-green-600" />
+          <div className="feature-card">
+            <div className="feature-icon green">
+              <Activity className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Perguntas Dinâmicas</h3>
-            <p className="text-gray-600">
-              Sistema de perguntas adaptativas para diagnóstico preciso
+            <h3 className="feature-title">Perguntas Dinâmicas</h3>
+            <p className="feature-description">
+              Sistema de perguntas adaptativas geradas por IA para diagnóstico preciso
             </p>
           </div>
 
-          <div className="card text-center">
-            <div className="p-4 bg-purple-100 rounded-lg w-fit mx-auto mb-4">
-              <Shield className="w-8 h-8 text-purple-600" />
+          <div className="feature-card">
+            <div className="feature-icon purple">
+              <Shield className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Relatórios Detalhados</h3>
-            <p className="text-gray-600">
-              Relatórios completos com probabilidades e recomendações
+            <h3 className="feature-title">Relatórios Detalhados</h3>
+            <p className="feature-description">
+              Relatórios completos com probabilidades, urgência e recomendações específicas
             </p>
           </div>
         </div>
 
         <div className="card">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+          <h2 className="how-it-works-title">
             Como Funciona
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-blue-600 font-bold">1</span>
+          <div className="steps-grid">
+            <div className="step-item">
+              <div className="step-number blue">
+                <span>1</span>
               </div>
-              <h3 className="font-semibold mb-2">Dados do Paciente</h3>
-              <p className="text-sm text-gray-600">Insira informações básicas e sintomas</p>
+              <h3 className="step-title">Dados do Paciente</h3>
+              <p className="step-description">Insira informações básicas, sintomas e histórico médico</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-green-600 font-bold">2</span>
+            <div className="step-item">
+              <div className="step-number green">
+                <span>2</span>
               </div>
-              <h3 className="font-semibold mb-2">Análise IA</h3>
-              <p className="text-sm text-gray-600">IA analisa e gera perguntas específicas</p>
+              <h3 className="step-title">Análise IA</h3>
+              <p className="step-description">Google Gemini analisa e gera perguntas específicas</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-yellow-600 font-bold">3</span>
+            <div className="step-item">
+              <div className="step-number yellow">
+                <span>3</span>
               </div>
-              <h3 className="font-semibold mb-2">Perguntas</h3>
-              <p className="text-sm text-gray-600">Responda perguntas direcionadas</p>
+              <h3 className="step-title">Perguntas</h3>
+              <p className="step-description">Responda perguntas direcionadas com SIM/NÃO</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-purple-600 font-bold">4</span>
+            <div className="step-item">
+              <div className="step-number purple">
+                <span>4</span>
               </div>
-              <h3 className="font-semibold mb-2">Relatório</h3>
-              <p className="text-sm text-gray-600">Receba diagnóstico e recomendações</p>
+              <h3 className="step-title">Relatório</h3>
+              <p className="step-description">Receba diagnóstico com probabilidades e recomendações</p>
             </div>
           </div>
         </div>
@@ -217,6 +255,7 @@ function App() {
   );
 
   const renderCurrentStep = () => {
+    console.log('🔄 Renderizando step:', currentStep);
     switch (currentStep) {
       case 'welcome':
         return renderWelcomeScreen();
@@ -227,7 +266,11 @@ function App() {
             <div className="container">
               {isLoading ? (
                 <div className="card">
-                  <LoadingSpinner message="Analisando sintomas com IA..." size="lg" />
+                  <LoadingSpinner 
+                    message="Analisando sintomas com Google Gemini..." 
+                    size="lg" 
+                    showGemini={true}
+                  />
                 </div>
               ) : (
                 <PatientDataForm onSubmit={handlePatientDataSubmit} />
@@ -242,7 +285,11 @@ function App() {
             <div className="container">
               {isLoading ? (
                 <div className="card">
-                  <LoadingSpinner message="Processando respostas e refinando diagnóstico..." size="lg" />
+                  <LoadingSpinner 
+                    message="Refinando diagnóstico com Google Gemini..." 
+                    size="lg" 
+                    showGemini={true}
+                  />
                 </div>
               ) : (
                 <QuestionInterface

@@ -17,14 +17,20 @@ class GeminiService {
 
   async analyzeSymptoms(patientData: PatientData): Promise<AIAnalysis> {
     try {
+      console.log('🤖 Usando Google Gemini para análise de sintomas...');
+      console.log('📋 Dados do paciente:', patientData);
+      
       const prompt = this.buildAnalysisPrompt(patientData);
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
       
+      console.log('✅ Resposta do Gemini recebida:', text.substring(0, 200) + '...');
+      
       return this.parseAnalysisResponse(text, patientData);
     } catch (error) {
-      console.error('Erro ao analisar sintomas com Gemini:', error);
+      console.error('❌ Erro ao analisar sintomas com Gemini:', error);
+      console.log('🔄 Usando análise local como fallback...');
       // Fallback para análise local em caso de erro
       return this.getFallbackAnalysis(patientData);
     }
@@ -32,14 +38,20 @@ class GeminiService {
 
   async refineDiagnosis(answers: Answer[], currentAnalysis: AIAnalysis): Promise<AIAnalysis> {
     try {
+      console.log('🤖 Refinando diagnóstico com Google Gemini...');
+      console.log('📝 Respostas recebidas:', answers);
+      
       const prompt = this.buildRefinementPrompt(answers, currentAnalysis);
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
       
+      console.log('✅ Diagnóstico refinado pelo Gemini:', text.substring(0, 200) + '...');
+      
       return this.parseRefinementResponse(text, currentAnalysis);
     } catch (error) {
-      console.error('Erro ao refinar diagnóstico com Gemini:', error);
+      console.error('❌ Erro ao refinar diagnóstico com Gemini:', error);
+      console.log('🔄 Mantendo análise atual...');
       return currentAnalysis;
     }
   }
@@ -184,14 +196,14 @@ Retorne apenas o JSON atualizado.
       possibleConditions.push({
         condition: 'Possível Angina ou Infarto',
         probability: 0.7,
-        confidence: 'medium',
+        confidence: 'medium' as const,
         symptoms: ['aperto no peito'],
         recommendations: [
           'ATENÇÃO: Procure atendimento médico IMEDIATAMENTE',
           'Chame SAMU (192) se necessário',
           'Mantenha repouso absoluto'
         ],
-        urgency: 'urgent',
+        urgency: 'urgent' as const,
         nextSteps: [
           'Encaminhar para atendimento médico urgente',
           'Coletar sinais vitais',
@@ -221,14 +233,14 @@ Retorne apenas o JSON atualizado.
       possibleConditions.push({
         condition: 'Possível Hipotensão ou Problema Neurológico',
         probability: 0.5,
-        confidence: 'medium',
+        confidence: 'medium' as const,
         symptoms: ['tontura'],
         recommendations: [
           'Verificar pressão arterial',
           'Manter paciente deitado com pernas elevadas',
           'Procurar atendimento médico'
         ],
-        urgency: 'moderate',
+        urgency: 'moderate' as const,
         nextSteps: [
           'Verificar sinais vitais',
           'Orientar sobre hidratação',

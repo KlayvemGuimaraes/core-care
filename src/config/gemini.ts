@@ -1,7 +1,7 @@
 // Configuração da API do Google Gemini
 export const GEMINI_CONFIG = {
   // Substitua pela sua chave de API do Google Gemini
-  apiKey: import.meta.env.VITE_GEMINI_API_KEY ,
+  apiKey: import.meta.env.VITE_GEMINI_API_KEY || 'YOUR_GEMINI_API_KEY_HERE',
   model: 'gemini-1.5-flash',
   generationConfig: {
     temperature: 0.7,

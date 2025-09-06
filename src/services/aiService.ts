@@ -200,7 +200,7 @@ export class AIService {
       return {
         ...condition,
         probability: Math.max(0, Math.min(1, newProbability)),
-        confidence: newProbability > 0.7 ? 'high' : newProbability > 0.5 ? 'medium' : 'low'
+        confidence: newProbability > 0.7 ? 'high' as const : newProbability > 0.5 ? 'medium' as const : 'low' as const
       };
     });
 

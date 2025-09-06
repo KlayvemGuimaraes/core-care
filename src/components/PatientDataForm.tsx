@@ -90,21 +90,21 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
 
   return (
     <div className="card fade-in">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 bg-blue-100 rounded-lg">
-          <User className="w-6 h-6 text-blue-600" />
+      <div className="form-section-title">
+        <div className="form-section-icon">
+          <User className="w-6 h-6" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Dados do Paciente</h2>
-          <p className="text-gray-600">Preencha as informações básicas do paciente</p>
+          <h2>Dados do Paciente</h2>
+          <p className="text-sm text-gray-600 font-normal">Preencha as informações básicas do paciente</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Informações Básicas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="form-grid">
+          <div className="form-group">
+            <label className="form-label">
               Nome Completo *
             </label>
             <input
@@ -114,11 +114,11 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
               className={`input ${errors.name ? 'border-red-500' : ''}`}
               placeholder="Digite o nome completo"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && <p className="error-message">{errors.name}</p>}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="form-group">
+            <label className="form-label">
               Idade *
             </label>
             <input
@@ -130,7 +130,7 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
               min="0"
               max="120"
             />
-            {errors.age && <p className="text-red-500 text-sm mt-1">{errors.age}</p>}
+            {errors.age && <p className="error-message">{errors.age}</p>}
           </div>
         </div>
 

@@ -18,18 +18,22 @@ Criar uma solução que permita a agentes de saúde em locais afastados:
 - **Integração com Google Gemini**: Análise de sintomas usando IA de última geração
 - **Fallback Inteligente**: Sistema de backup com conhecimento médico local
 - **Análise Contextual**: Considera histórico médico, medicações e sinais vitais
+- **Logs Detalhados**: Console mostra quando está usando Gemini vs. análise local
 
-### 📋 Interface Intuitiva
+### 📋 Interface Intuitiva e Moderna
+- **Design Glassmorphism**: Interface com efeitos de vidro e blur
+- **Animações Suaves**: Transições e hover effects profissionais
 - **Formulário de Dados do Paciente**: Coleta informações básicas e sintomas
 - **Sistema de Perguntas Dinâmicas**: Perguntas adaptativas baseadas nos sintomas
-- **Interface Responsiva**: Funciona em dispositivos móveis e desktop
-- **Design Moderno**: Interface limpa e profissional
+- **Interface Responsiva**: Funciona perfeitamente em dispositivos móveis e desktop
+- **Indicadores Visuais**: Status do Gemini, loading states, progress bars
 
 ### 📊 Relatórios Detalhados
 - **Probabilidades de Diagnóstico**: Percentuais baseados em análise de IA
 - **Níveis de Urgência**: Classificação de risco (crítico, alto, médio, baixo)
 - **Recomendações Específicas**: Orientações baseadas em cada condição
 - **Próximos Passos**: Ações recomendadas para o agente de saúde
+- **Contatos de Emergência**: SAMU e orientações para casos críticos
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -85,6 +89,11 @@ yarn dev
 
 6. **Acesse a aplicação**
    - Abra http://localhost:3000 no seu navegador
+
+7. **Verifique se o Gemini está funcionando**
+   - No canto superior direito, você verá o status: "Gemini Ativo" (verde) ou "Modo Local" (amarelo)
+   - Abra o console do navegador (F12) para ver logs detalhados da IA
+   - Se estiver usando Gemini, verá: "🤖 Usando Google Gemini para análise de sintomas..."
 
 ## 🔧 Configuração da API
 
