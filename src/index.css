@@ -136,6 +136,22 @@ body {
   color: var(--neutral-900);
   overflow-x: hidden;
   transition: background var(--transition-normal);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 #root {
@@ -464,6 +480,7 @@ body {
   animation: heroPulse 3s ease-in-out infinite;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -608,12 +625,15 @@ body {
   grid-template-columns: 1fr;
   gap: var(--space-8);
   margin-bottom: var(--space-16);
+  justify-items: center;
 }
 
 @media (min-width: 768px) {
   .features-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-8);
+    max-width: 1000px;
+    margin: 0 auto;
   }
 }
 
@@ -629,6 +649,8 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 350px;
 }
 
 .feature-card::before {
@@ -642,10 +664,10 @@ body {
 }
 
 .feature-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-12px) scale(1.03);
   box-shadow: 
-    0 32px 64px -12px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.15);
+    0 40px 80px -12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .feature-icon {
@@ -714,12 +736,15 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-8);
+  justify-items: center;
 }
 
 @media (min-width: 768px) {
   .steps-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-6);
+    max-width: 1200px;
+    margin: 0 auto;
   }
 }
 
@@ -727,6 +752,8 @@ body {
   text-align: center;
   transition: all var(--transition-normal);
   position: relative;
+  max-width: 250px;
+  width: 100%;
 }
 
 .step-item:hover {
@@ -1016,6 +1043,112 @@ body {
 
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+/* Classes personalizadas para design harmonioso */
+.hover-scale-102:hover {
+  transform: scale(1.02);
+}
+
+/* Design simplificado e limpo */
+.simple-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.simple-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading screen simplificado */
+.loading-simple {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Botões simplificados */
+.btn-simple {
+  transition: all 0.2s ease;
+  border-radius: 0.75rem;
+  font-weight: 500;
+}
+
+.btn-simple:hover {
+  transform: translateY(-1px);
+}
+
+/* Inputs simplificados */
+.input-simple {
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.input-simple:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Espaçamentos harmoniosos */
+.space-harmonious > * + * {
+  margin-top: 1.5rem;
+}
+
+.space-tight > * + * {
+  margin-top: 0.75rem;
 }
 
 @media (max-width: 768px) {

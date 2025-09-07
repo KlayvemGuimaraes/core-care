@@ -1,8 +1,8 @@
-# HealthAI - Sistema de Diagnóstico Assistido por IA
+# CoreCare - Sistema de Diagnóstico Assistido por IA
 
 ## 🏥 Sobre o Projeto
 
-O **HealthAI** é um sistema de diagnóstico assistido por inteligência artificial desenvolvido para o **Hackathon Hacking Medicine do MIT** em parceria com o **Hospital Albert Einstein**. O projeto visa auxiliar agentes de saúde em locais remotos do Brasil, onde há poucos médicos especializados, fornecendo ferramentas de diagnóstico baseadas em IA.
+O **CoreCare** é um sistema de diagnóstico assistido por inteligência artificial desenvolvido para o **Hackathon Hacking Medicine do MIT** em parceria com o **Hospital Albert Einstein**. O projeto visa auxiliar agentes de saúde em locais remotos do Brasil, onde há poucos médicos especializados, fornecendo ferramentas de diagnóstico baseadas em IA.
 
 ## 🎯 Objetivo
 

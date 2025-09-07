@@ -138,20 +138,20 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Sexo
           </label>
-          <div className="flex gap-4">
+          <div className="flex gap-6">
             {[
               { value: 'M', label: 'Masculino' },
               { value: 'F', label: 'Feminino' },
               { value: 'O', label: 'Outro' }
             ].map(option => (
-              <label key={option.value} className="flex items-center">
+              <label key={option.value} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="gender"
                   value={option.value}
                   checked={formData.gender === option.value}
                   onChange={(e) => handleInputChange('gender', e.target.value)}
-                  className="mr-2"
+                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 />
                 {option.label}
               </label>
