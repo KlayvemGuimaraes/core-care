@@ -165,7 +165,7 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Sintomas */}
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Sintomas Relacionados</h5>
+                  <h5 className="text-xs font-bold tracking-wide text-gray-900 uppercase mb-3">Sintomas Relacionados</h5>
                   <div className="flex flex-wrap gap-2">
                     {condition.symptoms.map((symptom, idx) => (
                       <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
@@ -177,10 +177,10 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
 
                 {/* Recomendações */}
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Recomendações</h5>
-                  <ul className="space-y-2">
+                  <h5 className="text-xs font-bold tracking-wide text-gray-900 uppercase mb-3">Recomendações</h5>
+                  <ul className="space-y-2 leading-relaxed">
                     {condition.recommendations.map((recommendation, idx) => (
-                      <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
+                      <li key={idx} className="text-sm md:text-[15px] text-gray-800 flex items-start gap-2">
                         <ArrowRight className="w-3 h-3 mt-1.5 text-gray-400 flex-shrink-0" />
                         {recommendation}
                       </li>
@@ -190,10 +190,10 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
 
                 {/* Próximos Passos */}
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Próximos Passos</h5>
-                  <ul className="space-y-2">
+                  <h5 className="text-xs font-bold tracking-wide text-gray-900 uppercase mb-3">Próximos Passos</h5>
+                  <ul className="space-y-2 leading-relaxed">
                     {condition.nextSteps.map((step, idx) => (
-                      <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
+                      <li key={idx} className="text-sm md:text-[15px] text-gray-800 flex items-start gap-2">
                         <CheckCircle className="w-3 h-3 mt-1.5 text-green-500 flex-shrink-0" />
                         {step}
                       </li>
