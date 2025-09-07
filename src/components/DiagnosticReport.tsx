@@ -49,6 +49,16 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
     }
   };
 
+  const getUrgencyBorderColor = (urgency: string) => {
+    switch (urgency) {
+      case 'immediate': return 'border-l-red-500';
+      case 'urgent': return 'border-l-orange-500';
+      case 'moderate': return 'border-l-yellow-500';
+      case 'low': return 'border-l-green-500';
+      default: return 'border-l-gray-300';
+    }
+  };
+
   const getUrgencyIcon = (urgency: string) => {
     switch (urgency) {
       case 'immediate': return <AlertTriangle className="w-5 h-5" />;
@@ -130,70 +140,66 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
 
       {/* Possíveis Condições */}
       <div className="card fade-in">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+        <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
           <Activity className="w-5 h-5" />
           Possíveis Condições Identificadas
         </h3>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {analysis.possibleConditions.map((condition, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex-1">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-2">{condition.condition}</h4>
-                  <div className="flex items-center gap-4 mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-600">Probabilidade:</span>
-                      <span className={`text-lg font-bold ${getProbabilityColor(condition.probability)}`}>
-                        {formatProbability(condition.probability)}%
-                      </span>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${getUrgencyColor(condition.urgency)}`}>
-                      {getUrgencyIcon(condition.urgency)}
-                      {condition.urgency === 'immediate' ? 'Imediato' : 
-                       condition.urgency === 'urgent' ? 'Urgente' : 
-                       condition.urgency === 'moderate' ? 'Moderado' : 'Baixo'}
-                    </div>
+            <div key={index} className={`border border-gray-200 rounded-xl p-5 hover:shadow-md transition-shadow border-l-4 ${getUrgencyBorderColor(condition.urgency)}`}>
+              {/* Header da condição */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+                <h4 className="text-xl font-bold text-gray-900">{index + 1}. {condition.condition}</h4>
+                <div className="flex items-center gap-3">
+                  <span className={`px-3 py-1.5 rounded-full text-sm font-bold ${getUrgencyColor(condition.urgency)}`}>{getUrgencyIcon(condition.urgency)}
+                  <span className="ml-1">{condition.urgency === 'immediate' ? 'Imediato' : condition.urgency === 'urgent' ? 'Urgente' : condition.urgency === 'moderate' ? 'Moderado' : 'Baixo'}</span></span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="uppercase tracking-wide text-xs text-gray-500">Probabilidade</span>
+                    <span className={`text-2xl leading-none font-extrabold ${getProbabilityColor(condition.probability)}`}>{formatProbability(condition.probability)}%</span>
                   </div>
                 </div>
               </div>
 
-              {/* Sintomas Relacionados */}
-              <div className="mb-4">
-                <h5 className="text-sm font-medium text-gray-700 mb-2">Sintomas Relacionados:</h5>
-                <div className="flex flex-wrap gap-2">
-                  {condition.symptoms.map((symptom, idx) => (
-                    <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                      {symptom}
-                    </span>
-                  ))}
+              {/* Conteúdo em grid para maior clareza */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Sintomas */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Sintomas Relacionados</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {condition.symptoms.map((symptom, idx) => (
+                      <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                        {symptom}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Recomendações */}
-              <div className="mb-4">
-                <h5 className="text-sm font-medium text-gray-700 mb-2">Recomendações:</h5>
-                <ul className="space-y-1">
-                  {condition.recommendations.map((recommendation, idx) => (
-                    <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                      <ArrowRight className="w-3 h-3 mt-1.5 text-gray-400 flex-shrink-0" />
-                      {recommendation}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                {/* Recomendações */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Recomendações</h5>
+                  <ul className="space-y-2">
+                    {condition.recommendations.map((recommendation, idx) => (
+                      <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
+                        <ArrowRight className="w-3 h-3 mt-1.5 text-gray-400 flex-shrink-0" />
+                        {recommendation}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-              {/* Próximos Passos */}
-              <div>
-                <h5 className="text-sm font-medium text-gray-700 mb-2">Próximos Passos:</h5>
-                <ul className="space-y-1">
-                  {condition.nextSteps.map((step, idx) => (
-                    <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 mt-1.5 text-green-500 flex-shrink-0" />
-                      {step}
-                    </li>
-                  ))}
-                </ul>
+                {/* Próximos Passos */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h5 className="text-sm font-semibold text-gray-800 mb-2">Próximos Passos</h5>
+                  <ul className="space-y-2">
+                    {condition.nextSteps.map((step, idx) => (
+                      <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
+                        <CheckCircle className="w-3 h-3 mt-1.5 text-green-500 flex-shrink-0" />
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           ))}
