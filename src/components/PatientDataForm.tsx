@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PatientData } from '../types/health';
-import { Heart, User, Calendar, FileText, Pill, Thermometer } from 'lucide-react';
+import { Heart, User, FileText, Pill, Thermometer } from 'lucide-react';
 
 interface PatientDataFormProps {
   onSubmit: (data: PatientData) => void;
@@ -16,9 +16,11 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
     currentMedications: '',
     vitalSigns: {
       bloodPressure: '',
-      heartRate: 0,
-      temperature: 0,
-      oxygenSaturation: 0
+      heightCm: 0,
+      weightKg: 0,
+      abdominalCircumferenceCm: 0,
+      hypertensionDiagnosed: false,
+      diabetesDiagnosed: false
     }
   });
 
@@ -205,11 +207,11 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
           />
         </div>
 
-        {/* Sinais Vitais */}
+        {/* Sinais Vitais e Medidas */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             <Thermometer className="w-4 h-4 inline mr-2" />
-            Sinais Vitais (Opcional)
+            Sinais Vitais e Medidas (Opcional)
           </label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -223,41 +225,88 @@ export const PatientDataForm: React.FC<PatientDataFormProps> = ({ onSubmit }) =>
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 mb-1">Frequência Cardíaca (bpm)</label>
+              <label className="block text-sm text-gray-600 mb-1">Altura (cm)</label>
               <input
                 type="number"
-                value={formData.vitalSigns?.heartRate || ''}
-                onChange={(e) => handleVitalSignChange('heartRate', parseInt(e.target.value) || 0)}
+                value={formData.vitalSigns?.heightCm || ''}
+                onChange={(e) => handleVitalSignChange('heightCm', parseFloat(e.target.value) || 0)}
                 className="input"
-                placeholder="Ex: 80"
+                placeholder="Ex: 170"
                 min="30"
-                max="200"
+                max="250"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 mb-1">Temperatura (°C)</label>
+              <label className="block text-sm text-gray-600 mb-1">Peso (kg)</label>
               <input
                 type="number"
+                value={formData.vitalSigns?.weightKg || ''}
+                onChange={(e) => handleVitalSignChange('weightKg', parseFloat(e.target.value) || 0)}
+                className="input"
+                placeholder="Ex: 70"
+                min="1"
+                max="500"
                 step="0.1"
-                value={formData.vitalSigns?.temperature || ''}
-                onChange={(e) => handleVitalSignChange('temperature', parseFloat(e.target.value) || 0)}
-                className="input"
-                placeholder="Ex: 36.5"
-                min="30"
-                max="45"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 mb-1">Saturação de Oxigênio (%)</label>
+              <label className="block text-sm text-gray-600 mb-1">Circunferência Abdominal (cm)</label>
               <input
                 type="number"
-                value={formData.vitalSigns?.oxygenSaturation || ''}
-                onChange={(e) => handleVitalSignChange('oxygenSaturation', parseInt(e.target.value) || 0)}
+                value={formData.vitalSigns?.abdominalCircumferenceCm || ''}
+                onChange={(e) => handleVitalSignChange('abdominalCircumferenceCm', parseFloat(e.target.value) || 0)}
                 className="input"
-                placeholder="Ex: 98"
-                min="70"
-                max="100"
+                placeholder="Ex: 95"
+                min="20"
+                max="250"
+                step="0.1"
               />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="block text-sm text-gray-600">Diagnóstico de Hipertensão?</label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="hypertensionDiagnosed"
+                    checked={formData.vitalSigns?.hypertensionDiagnosed === true}
+                    onChange={() => handleVitalSignChange('hypertensionDiagnosed', true)}
+                  />
+                  Sim
+                </label>
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="hypertensionDiagnosed"
+                    checked={formData.vitalSigns?.hypertensionDiagnosed === false}
+                    onChange={() => handleVitalSignChange('hypertensionDiagnosed', false)}
+                  />
+                  Não
+                </label>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="block text-sm text-gray-600">Diagnóstico de Diabetes?</label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="diabetesDiagnosed"
+                    checked={formData.vitalSigns?.diabetesDiagnosed === true}
+                    onChange={() => handleVitalSignChange('diabetesDiagnosed', true)}
+                  />
+                  Sim
+                </label>
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="diabetesDiagnosed"
+                    checked={formData.vitalSigns?.diabetesDiagnosed === false}
+                    onChange={() => handleVitalSignChange('diabetesDiagnosed', false)}
+                  />
+                  Não
+                </label>
+              </div>
             </div>
           </div>
         </div>

@@ -8,9 +8,11 @@ export interface PatientData {
   currentMedications: string;
   vitalSigns?: {
     bloodPressure?: string;
-    heartRate?: number;
-    temperature?: number;
-    oxygenSaturation?: number;
+    heightCm?: number;
+    weightKg?: number;
+    abdominalCircumferenceCm?: number;
+    hypertensionDiagnosed?: boolean;
+    diabetesDiagnosed?: boolean;
   };
   createdAt: Date;
 }
